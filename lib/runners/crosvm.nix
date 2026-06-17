@@ -34,6 +34,8 @@ let
     vulkan = true;
   };
 
+  iommuMode = microvmConfig.crosvm.iommu;
+
 in {
 
   preStart = ''
@@ -157,7 +159,7 @@ in {
     )
     + " " + # Move vfio-pci outside of
       lib.concatStringsSep " " (lib.concatMap ({ bus, path, ... }: {
-        pci = [ "--vfio" "/sys/bus/pci/devices/${path},iommu=viommu" ];
+        pci = [ "--vfio" "/sys/bus/pci/devices/${path},iommu=${iommuMode}" ];
         usb = throw "USB passthrough is not supported on crosvm";
       }.${bus}) devices)
     + " " + lib.escapeShellArgs extraArgs;

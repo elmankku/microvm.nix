@@ -880,6 +880,17 @@ in
       defaultText = lib.literalExpression "config.microvm.vmHostPackages.crosvm";
     };
 
+    crosvm.iommu = mkOption {
+      description = "The iommu mode for passthrough devices.";
+      type = types.enum [
+        "off"
+        "viommu"
+        "coiommu"
+        "pkvm-iommu"
+      ];
+      default = "viommu";
+    };
+
     firecracker.cpu = mkOption {
       type = with types; nullOr attrs;
       default = null;
